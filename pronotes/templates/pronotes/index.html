@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta charset="utf-8" />
+    <link rel="icon" href="{% static 'pronotes/img/notepad.png' %}"/>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <link
+      rel="stylesheet"
+      href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+
+    <title>ProNotes ~ Best Notes App for Programmers</title>
+  </head>
+  <body>
+
+    <!--CSS IS HERE-->
+    <style>
+      .mdl-button--floating-action {
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
+        padding-top: 24px;
+        margin-bottom: 0;
+        z-index: 998;
+      }
+
+      .demo-card-event.mdl-card {
+        width: 256px;
+        height: 256px;
+        background: linear-gradient(to right, #ee0979, #f5425d);
+      }
+      .demo-card-event > .mdl-card__actions {
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+      .demo-card-event > .mdl-card__title {
+        align-items: flex-start;
+      }
+      .demo-card-event > .mdl-card__title > h4 {
+        margin-top: 0;
+      }
+      .demo-card-event > .mdl-card__actions {
+        display: flex;
+        box-sizing: border-box;
+        align-items: center;
+      }
+      .demo-card-event > .mdl-card__actions > .material-icons {
+        padding-right: 10px;
+      }
+      .demo-card-event > .mdl-card__title,
+      .demo-card-event > .mdl-card__actions,
+      .demo-card-event > .mdl-card__actions > .mdl-button {
+        color: #fff;
+      }
+    </style>
+    <style>
+      .head {
+        background: linear-gradient(
+          to right,
+          #ee0979,
+          #ff6a00,
+          #f5425d,
+          #6a82fb,
+          #b92b27
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .text-all{
+        font-family: 'Comfortaa', cursive;
+      }
+    </style>
+    <h1 class="text-center my-5" style="font-family: 'Comfortaa', cursive;">
+      Welcome to <b class="head">Pro Notes !</b>
+    </h1>
+      <div class="container main">
+      <h1
+        class="text-center head my-5"
+        style="font-family: 'Comfortaa', cursive;"
+      >
+        <img
+          width="80px"
+          height="80px"
+          src="{% static 'pronotes\img\notepad.png' %}"
+          alt="Logo is here"
+        />
+        <b> Your Notes </b>
+      </h1>
+      <button
+        data-toggle="modal"
+        data-target="#exampleModalCenter"
+        class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-button--floating-action"
+      >
+        <i class="material-icons">add</i>
+      </button>
+      <!-- CARDS ARE START FROM HERE-->
+      <div class="row">
+        {% for x in data %}
+        <form method="GET" action="/delete">
+        <div
+          style="margin-left: 10px; margin-bottom: 10px;"
+          class="demo-card-event mdl-card mdl-shadow--2dp">
+          <div class="mdl-card__title mdl-card--expand">
+            <input type="hidden" name="work" value="{{ x }}">
+            <h4 style="font-family: 'Comfortaa', cursive;">
+              {{ x }}
+
+            </h4>
+          </div>
+          <div class="mdl-card__actions mdl-card--border text-all">
+            {{ x.date }}
+            <!-- <button
+              type="submit"
+              style="color: white; font-family: 'Comfortaa', cursive;"
+              class="btn btn"
+            >
+              Delete Work
+          </button> -->
+            <div class="mdl-layout-spacer"></div>
+            <button style="color: white" type="submit" class="btn btn-link"> <i class="material-icons">delete</i> </button>
+          </div>
+        </div>
+      </form>
+        {% endfor %}
+      </div>
+    </div>
+    
+
+    <!-- ADD DATA MODEL -->
+    <div
+      class="modal fade"
+      id="exampleModalCenter"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalCenterTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title text-all" id="exampleModalCenterTitle">
+              Add New Work
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form method="POST" action="/"> {% csrf_token %}
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text text-all" id="inputGroup-sizing-default"
+                    >Work</span
+                  >
+                </div>
+                <input
+                  type="text"
+                  class="form-control text-all"
+                  aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-default"
+                  name="work"
+                />
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary text-all"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="submit" class="btn btn-primary text-all">Add Work</button>
+          </div>
+        </div>
+        </form>
+      </div>
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
